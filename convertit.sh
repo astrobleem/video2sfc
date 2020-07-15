@@ -28,13 +28,10 @@ rm outputvideo.msu
 
 echo "creating working directory:"
 mkdir img_seq
-#mkdir img_seq/img_seq_c_red
-#mkdir img_seq/img_seq_c_red/img_seq
 cp msu1conv img_seq/
 
 echo "video to wav!"
 rm ffout.wav
-#ffmpeg -i $1 -ac 2 -ar 44100 audio.wav
 ffmpeg -i $1 -ac 2 -ar 44100 ffout.wav
 sox --norm ffout.wav soxout.wav
 echo "wav to msu!"
@@ -48,24 +45,19 @@ let i=0
 mv *.tga img_seq 
 cd img_seq
 parallel --progress -j 20 mogrify -dither -type Palette  ::: *.tga
-
 #parallel --progress -j 20 mogrify-im6 -dither FloydSteinberg -type Palette -limit thread 2020 ::: *.tga
 #mogrify-im6 -path img_seq/ -dither FloydSteinberg -limit thread 24 -type Palette
+
 # for f in img_seq/*.tga; do
-#
 #let i=i+1
-#sem -j+0 convert-im6 $f -dither FloydSteinberg -limit thread 24 -type Palette img_seq/img_seq_c_red/$f 
+#convert-im6 $f -dither FloydSteinberg -limit thread 24 -type Palette img_seq/img_seq_c_red/$f 
 #printf "\b."
 #printf "!"
-
 #if [ $i = 10 ]; then
 #printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
 #let i=0
 #fi
 
-# done
-#sem --wait
-#read -rsn1 -p"Press any key to continue";echo
 
 echo "creating msu-video"
 ./msu1conv
@@ -97,9 +89,7 @@ if [ "$fps" = "12" ]; then
 fi
 
 
-#cp $1-comb.msu ../outputvideowithbyte.msu
 mv $1-comb.msu ../outputvideo.msu
-#cp out.msu ../outputvideonobyte.msu
 
 echo "cleanup working directory:"
 cd ..
