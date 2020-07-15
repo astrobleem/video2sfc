@@ -1,0 +1,3 @@
+[submodule "wav2msu"]
+	path = wav2msu
+	url = https://github.com/jbaiter/wav2msu
